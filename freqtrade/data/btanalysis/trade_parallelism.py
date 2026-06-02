@@ -127,6 +127,9 @@ def balance_distribution_over_time(
             stake = order["safe_price"] * real_amount
             stake_no_lev = stake / trade.leverage
 
+            if end_date is None:
+                continue
+            
             if filled_at > end_date:
                 filled_at = end_date
 
