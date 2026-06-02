@@ -132,6 +132,17 @@ def balance_distribution_over_time(
                 fee_open = stake * trade.fee_open
                 current_position += real_amount
                 current_collateral += stake_no_lev
+
+                print("DEBUG >>> pair:", pair)
+                print("DEBUG >>> filled_at:", filled_at, type(filled_at))
+                print("DEBUG >>> end_date:", end_date, type(end_date))
+                print("DEBUG >>> df columns:", df.columns.tolist())
+                try:
+                    print("DEBUG >>> slice shape:", df.loc[filled_at:end_date].shape)
+                except Exception as e:
+                    print("DEBUG >>> slice error:", e)
+                print("DEBUG >>> real_amount:", repr(real_amount), type(real_amount))
+
                 df.loc[filled_at:end_date, pair] += real_amount
                 df.loc[filled_at:end_date, f"{pair}_collateral"] += stake_no_lev
                 df.loc[filled_at:, stake_currency] -= stake_no_lev + fee_open
@@ -148,6 +159,17 @@ def balance_distribution_over_time(
                     df.loc[filled_at:, stake_currency] += (
                         stake - current_collateral * (trade.leverage - 1) - fee_close
                     )
+                
+                print("DEBUG >>> pair:", pair)
+                print("DEBUG >>> filled_at:", filled_at, type(filled_at))
+                print("DEBUG >>> end_date:", end_date, type(end_date))
+                print("DEBUG >>> df columns:", df.columns.tolist())
+                try:
+                    print("DEBUG >>> slice shape:", df.loc[filled_at:end_date].shape)
+                except Exception as e:
+                    print("DEBUG >>> slice error:", e)
+                print("DEBUG >>> real_amount:", repr(real_amount), type(real_amount))                
+                
                 df.loc[filled_at:end_date, pair] -= real_amount
                 df.loc[filled_at:end_date, f"{pair}_collateral"] -= stake_no_lev
                 current_position -= real_amount
