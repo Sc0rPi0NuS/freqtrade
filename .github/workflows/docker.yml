@@ -6,6 +6,7 @@ on:
       - my-patches
 
 permissions:
+  id-token: write
   contents: read
   packages: write
 
