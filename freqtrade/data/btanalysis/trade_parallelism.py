@@ -133,6 +133,14 @@ def balance_distribution_over_time(
             if filled_at > end_date:
                 filled_at = end_date
 
+            # Funding fees are charged in full to the order they accumulated up to.
+            # Positive funding fees are a gain for the trade, negative ones a cost.
+            # Fees an open trade accumulated since its last fill aren't assigned to an order
+            # yet, and are therefore not reflected until the trade exits.
+            funding_fee = order.get("funding_fee") or 0.0
+            if funding_fee:
+                df.loc[filled_at:, stake_currency] += funding_fee
+
             if order["ft_is_entry"]:
                 # Entry order: lock collateral and pay fee
                 # For both long and short: balance decreases by collateral + fee
